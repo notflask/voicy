@@ -105,6 +105,8 @@ impl VoicyTools {
             .arg("-filter:a")
             .arg(format!("atempo={}", new_speed))
             .arg(out_file)
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
             .status()
             .expect("Failed to execute FFmpeg command");
 

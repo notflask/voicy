@@ -1,7 +1,7 @@
 use std::env;
 use std::str::FromStr;
 
-use serenity::all::{GuildId, Message};
+use serenity::all::{GuildId, Message, UserId};
 use serenity::async_trait;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
@@ -21,6 +21,18 @@ impl EventHandler for Handler {
         }
 
         if !msg.is_private() {
+            return;
+        }
+
+        let owner_id: UserId = UserId::from_str(
+            env::var("OWNER_ID")
+                .expect("Failed to get OWNER_ID from .env")
+                .as_str(),
+        )
+        .expect("Failed to get owner_id")
+        .into();
+
+        if !(msg.author.id == owner_id) {
             return;
         }
 
